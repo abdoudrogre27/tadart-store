@@ -517,7 +517,6 @@
     متجر Tadart — تامنصورت — خدمة سريعة وطلب مباشر عبر واتساب (0768188305)
   </footer>
 
-  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
@@ -566,7 +565,7 @@
     let isAdminUnlocked = false;
     let uploadedBase64Image = "";
     let activeModalProductId = null;
-    let initialDeepLinkChecked = false;
+    let initialDeepLinkHandled = false;
 
     function showToast(text) {
       const toast = document.getElementById("toastMsg");
@@ -576,8 +575,26 @@
     }
 
     function getProductShareUrl(productId) {
-      const baseUrl = window.location.href.split("#")[0].split("?")[0];
-      return `${baseUrl}#product-${productId}`;
+      const url = new URL(window.location.href);
+      url.hash = "";
+      url.searchParams.set("product", productId);
+      return url.toString();
+    }
+
+    function fallbackCopyText(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      let copied = false;
+      try {
+        copied = document.execCommand("copy");
+      } catch (e) {}
+      document.body.removeChild(textArea);
+      return copied;
     }
 
     window.copyProductLink = async function (productId, btnElement) {
@@ -585,8 +602,18 @@
       if (!product) return;
       const shareUrl = getProductShareUrl(productId);
 
-      try {
-        await navigator.clipboard.writeText(shareUrl);
+      let copied = false;
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(shareUrl);
+          copied = true;
+        } catch (e) {}
+      }
+      if (!copied) {
+        copied = fallbackCopyText(shareUrl);
+      }
+
+      if (copied) {
         showToast("تم نسخ رابط السلعة! الصقه في فيسبوك أو إنستغرام");
         if (btnElement) {
           const orig = btnElement.innerHTML;
@@ -597,7 +624,7 @@
             btnElement.classList.remove("copied");
           }, 2000);
         }
-      } catch (err) {
+      } else {
         prompt("انسخ رابط هذه السلعة لمشاركته:", shareUrl);
       }
     };
@@ -711,8 +738,11 @@
 
     document.getElementById("closeBotBtn").addEventListener("click", () => {
       document.getElementById("botModal").classList.remove("open");
-      if (window.location.hash.startsWith("#product-")) {
-        history.replaceState(null, "", window.location.pathname + window.location.search);
+      const cleanUrl = new URL(window.location.href);
+      if (cleanUrl.searchParams.has("product") || cleanUrl.hash) {
+        cleanUrl.searchParams.delete("product");
+        cleanUrl.hash = "";
+        history.replaceState(null, "", cleanUrl.toString());
       }
     });
 
@@ -822,30 +852,44 @@
         .replace(/"/g, "&quot;");
     }
 
-    function checkDirectProductLink() {
+    function getTargetProductIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const fromParam = params.get("product");
+      if (fromParam) return fromParam.trim();
+
       const hash = window.location.hash;
       if (hash && hash.startsWith("#product-")) {
-        const targetId = hash.replace("#product-", "");
-        const product = products.find((p) => p.id === targetId);
-        if (product) {
-          selectedCategory = "الكل";
-          document.getElementById("searchInput").value = "";
-          renderCategories();
-          renderProducts();
-
-          setTimeout(() => {
-            const cardEl = document.getElementById(`product-${targetId}`);
-            if (cardEl) {
-              cardEl.classList.add("highlighted");
-              cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
-            openBotOrder(targetId);
-          }, 150);
-        }
+        return hash.replace("#product-", "").trim();
       }
+      return null;
+    }
+
+    function checkDirectProductLink() {
+      const targetId = getTargetProductIdFromUrl();
+      if (!targetId || products.length === 0) return false;
+
+      const product = products.find((p) => p.id === targetId);
+      if (!product) return false;
+
+      selectedCategory = "الكل";
+      document.getElementById("searchInput").value = "";
+      renderCategories();
+      renderProducts();
+
+      setTimeout(() => {
+        const cardEl = document.getElementById(`product-${targetId}`);
+        if (cardEl) {
+          cardEl.classList.add("highlighted");
+          cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        openBotOrder(targetId);
+      }, 150);
+
+      return true;
     }
 
     window.addEventListener("hashchange", checkDirectProductLink);
+    window.addEventListener("popstate", checkDirectProductLink);
 
     document.getElementById("adminToggleBtn").addEventListener("click", () => {
       const panel = document.getElementById("adminPanel");
@@ -919,9 +963,10 @@
         renderProducts();
         if (isAdminUnlocked) renderAdminList();
 
-        if (!initialDeepLinkChecked && products.length > 0) {
-          initialDeepLinkChecked = true;
-          checkDirectProductLink();
+        if (!initialDeepLinkHandled && products.length > 0) {
+          if (checkDirectProductLink()) {
+            initialDeepLinkHandled = true;
+          }
         }
       },
       (error) => {
@@ -934,4 +979,3 @@
   </script>
 </body>
 </html>
-
