@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tadart — متجر مواد البناء والدروكري — تمنصورت</title>
+  <title>Tadart — متجر مواد البناء والدروكري — تامنصورت</title>
   <style>
     :root {
       --primary: #0f4c81;
@@ -128,5 +128,391 @@
     .toolbar {
       display: grid;
       grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 640px) {
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .cat-btn {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+
+    .cat-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+
+    .product-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .product-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .product-price span {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .admin-panel {
+      display: none;
+      background: #fff;
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .admin-panel.open {
+      display: block;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .admin-form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .admin-form input, .admin-form select {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #f8fafc;
+    }
+
+    .admin-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+
+    .admin-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 9px;
+      gap: 10px;
+      font-size: 0.9rem;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 36px 16px;
+      color: var(--muted);
+      background: #fff;
+      border-radius: 14px;
+      border: 1px dashed var(--border);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 28px;
+      padding: 0 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <h1>Tadart — تادارت</h1>
+        <p>مواد البناء، الأدوات والدروكري — تامنصورت، مراكش</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-light" id="adminToggleBtn" type="button">إدارة المتجر</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="admin-panel" id="adminPanel">
+      <div class="admin-header">
+        <h2>لوحة الإدارة (إضافة وتعديل السلع)</h2>
+        <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1" id="lockAdminBtn" type="button">إغلاق</button>
+      </div>
+
+      <form class="admin-form" id="addProductForm">
+        <input type="text" id="prodName" placeholder="اسم السلعة (مثلاً: سيمو CPJ 45)" required />
+        <input type="number" id="prodPrice" placeholder="الثمن (DH)" min="0" step="0.5" required />
+        <input type="text" id="prodUnit" placeholder="الوحدة (مثلاً: كيس، متر، حبة)" value="حبة" required />
+        <select id="prodCategory">
+          <option value="مواد البناء">مواد البناء</option>
+          <option value="أدوات يدوية">أدوات يدوية</option>
+          <option value="صباغة ودروكري">صباغة ودروكري</option>
+          <option value="كهرباء وسباكة">كهرباء وسباكة</option>
+        </select>
+        <button class="btn btn-primary" type="submit">+ إضافة سلعة</button>
+      </form>
+
+      <div class="admin-list" id="adminList"></div>
+    </section>
+
+    <div class="toolbar">
+      <input type="search" class="search-input" id="searchInput" placeholder="ابحث عن سلعة أو أداة..." />
+      <div class="categories" id="categoriesBar"></div>
+    </div>
+
+    <div class="grid" id="productsGrid"></div>
+  </main>
+
+  <footer>
+    متجر Tadart — تامنصورت — خدمة سريعة وطلب مباشر عبر واتساب
+  </footer>
+
+  <script>
+    const WHATSAPP_NUMBER = "212600000000";
+    const ADMIN_PIN = "1234";
+    const STORAGE_KEY = "tadart_products_v1";
+
+    const DEFAULT_PRODUCTS = [
+      { id: 1, name: "إسمنت CPJ 45", price: 78, unit: "كيس", category: "مواد البناء" },
+      { id: 2, name: "صباغة مائية داخلية", price: 240, unit: "سطل", category: "صباغة ودروكري" },
+      { id: 3, name: "مطرقة نجارة احترافية", price: 65, unit: "حبة", category: "أدوات يدوية" },
+      { id: 4, name: "أنبوب PVC قطر 50mm", price: 35, unit: "قطعة", category: "كهرباء وسباكة" }
+    ];
+
+    const CATEGORIES = ["الكل", "مواد البناء", "أدوات يدوية", "صباغة ودروكري", "كهرباء وسباكة"];
+
+    let products = loadProducts();
+    let selectedCategory = "الكل";
+    let isAdminUnlocked = false;
+
+    function loadProducts() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {}
+      return [...DEFAULT_PRODUCTS];
+    }
+
+    function saveProducts() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+    }
+
+    function renderCategories() {
+      const bar = document.getElementById("categoriesBar");
+      bar.innerHTML = "";
+      CATEGORIES.forEach((cat) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "cat-btn" + (selectedCategory === cat ? " active" : "");
+        btn.textContent = cat;
+        btn.addEventListener("click", () => {
+          selectedCategory = cat;
+          renderCategories();
+          renderProducts();
+        });
+        bar.appendChild(btn);
+      });
+    }
+
+    function buildWhatsAppLink(product) {
+      const msg = `السلام عليكم متجر Tadart (تامنصورت)، بغيت نطلب: ${product.name} (${product.price} DH / ${product.unit})`;
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById("productsGrid");
+      const q = document.getElementById("searchInput").value.trim().toLowerCase();
+
+      const filtered = products.filter((p) => {
+        const matchCat = selectedCategory === "الكل" || p.category === selectedCategory;
+        const matchText = !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+        return matchCat && matchText;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="empty">لا توجد سلع مطابقة للبحث حالياً.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered
+        .map(
+          (p) => `
+          <article class="card">
+            <div>
+              <span class="badge">${escapeHtml(p.category)}</span>
+              <h3 class="product-title">${escapeHtml(p.name)}</h3>
+              <div class="product-price">${Number(p.price)} DH <span>/ ${escapeHtml(p.unit)}</span></div>
+            </div>
+            <a class="btn btn-wa" href="${buildWhatsAppLink(p)}" target="_blank" rel="noopener">
+              طلب عبر واتساب
+            </a>
+          </article>
+        `
+        )
+        .join("");
+    }
+
+    function renderAdminList() {
+      const list = document.getElementById("adminList");
+      if (products.length === 0) {
+        list.innerHTML = `<div class="admin-item">لا توجد سلع مضافة.</div>`;
+        return;
+      }
+      list.innerHTML = products
+        .map(
+          (p) => `
+          <div class="admin-item">
+            <span><strong>${escapeHtml(p.name)}</strong> — ${Number(p.price)} DH (${escapeHtml(p.unit)})</span>
+            <button class="btn btn-danger" type="button" onclick="deleteProduct(${p.id})">حذف</button>
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    window.deleteProduct = function (id) {
+      products = products.filter((p) => p.id !== id);
+      saveProducts();
+      renderProducts();
+      renderAdminList();
+    };
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    document.getElementById("adminToggleBtn").addEventListener("click", () => {
+      const panel = document.getElementById("adminPanel");
+      if (isAdminUnlocked) {
+        panel.classList.toggle("open");
+        renderAdminList();
+        return;
+      }
+      const pin = prompt("أدخل رمز الإدارة (PIN):");
+      if (pin === ADMIN_PIN) {
+        isAdminUnlocked = true;
+        panel.classList.add("open");
+        renderAdminList();
+      } else if (pin !== null) {
+        alert("الرمز غير صحيح.");
+      }
+    });
+
+    document.getElementById("lockAdminBtn").addEventListener("click", () => {
+      document.getElementById("adminPanel").classList.remove("open");
+    });
+
+    document.getElementById("addProductForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("prodName").value.trim();
+      const price = parseFloat(document.getElementById("prodPrice").value);
+      const unit = document.getElementById("prodUnit").value.trim() || "حبة";
+      const category = document.getElementById("prodCategory").value;
+
+      if (!name || isNaN(price)) return;
+
+      products.unshift({
+        id: Date.now(),
+        name,
+        price,
+        unit,
+        category
+      });
+
+      saveProducts();
+      renderProducts();
+      renderAdminList();
+      e.target.reset();
+      document.getElementById("prodUnit").value = "حبة";
+    });
+
+    document.getElementById("searchInput").addEventListener("input", renderProducts);
+
+    renderCategories();
+    renderProducts();
+  </script>
+</body>
+</html>
+
       
 
