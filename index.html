@@ -168,7 +168,7 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
       gap: 14px;
     }
 
@@ -176,12 +176,55 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .product-img-box {
+      width: 100%;
+      height: 165px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .product-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .img-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+      gap: 4px;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .img-placeholder span.icon {
+      font-size: 2.2rem;
+    }
+
+    .card-body {
       padding: 14px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 12px;
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+      flex: 1;
     }
 
     .badge {
@@ -237,7 +280,7 @@
 
     .admin-form {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 10px;
       margin-bottom: 14px;
     }
@@ -247,13 +290,65 @@
       border: 1px solid var(--border);
       border-radius: 9px;
       background: #f8fafc;
+      width: 100%;
+    }
+
+    .image-upload-group {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+      align-items: center;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px dashed #cbd5e1;
+    }
+
+    @media (max-width: 720px) {
+      .image-upload-group {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .file-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #e2e8f0;
+      color: #0f172a;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .file-label input[type="file"] {
+      display: none;
+    }
+
+    .preview-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      background: #fff;
+      display: none;
+    }
+
+    .preview-thumb.visible {
+      display: block;
     }
 
     .admin-list {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      max-height: 260px;
+      max-height: 280px;
       overflow-y: auto;
     }
 
@@ -267,6 +362,21 @@
       border-radius: 9px;
       gap: 10px;
       font-size: 0.9rem;
+    }
+
+    .admin-item-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-item-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: #e2e8f0;
+      flex-shrink: 0;
     }
 
     .bot-modal {
@@ -317,6 +427,7 @@
       background: #fff;
       border-radius: 14px;
       border: 1px dashed var(--border);
+      grid-column: 1 / -1;
     }
 
     footer {
@@ -344,7 +455,7 @@
   <main class="container">
     <section class="admin-panel" id="adminPanel">
       <div class="admin-header">
-        <h2>لوحة الإدارة (إضافة وتعديل السلع)</h2>
+        <h2>لوحة الإدارة (إضافة وتعديل السلع والصور)</h2>
         <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1" id="lockAdminBtn" type="button">إغلاق</button>
       </div>
 
@@ -358,7 +469,17 @@
           <option value="صباغة ودروكري">صباغة ودروكري</option>
           <option value="كهرباء وسباكة">كهرباء وسباكة</option>
         </select>
-        <button class="btn btn-primary" type="submit">+ إضافة سلعة</button>
+
+        <div class="image-upload-group">
+          <label class="file-label" for="prodImageFile">
+            📷 اختر صورة من الهاتف / الحاسوب
+            <input type="file" id="prodImageFile" accept="image/*" />
+          </label>
+          <input type="url" id="prodImageUrl" placeholder="أو ألصق رابط الصورة (URL) هنا..." />
+          <img id="imagePreview" class="preview-thumb" alt="معاينة الصورة" />
+        </div>
+
+        <button class="btn btn-primary" style="grid-column: 1 / -1; justify-content: center;" type="submit">+ إضافة السلعة للمتجر</button>
       </form>
 
       <div class="admin-list" id="adminList"></div>
@@ -392,16 +513,23 @@
   <script>
     const WHATSAPP_NUMBER = "212768188305";
     const ADMIN_PIN = "1234";
-    const STORAGE_KEY = "tadart_products_v1";
+    const STORAGE_KEY = "tadart_products_v2";
     const BOT_REPLY = `مرحبا بيكم في المتجر ديالنا
 صيفت الاسم والعنوان وحدد السلعة لي بغيتي
 وغنرضو عليك في اقرب وقت وشكرا`;
 
+    const CATEGORY_ICONS = {
+      "مواد البناء": "🧱",
+      "أدوات يدوية": "🔨",
+      "صباغة ودروكري": "🎨",
+      "كهرباء وسباكة": "🚰"
+    };
+
     const DEFAULT_PRODUCTS = [
-      { id: 1, name: "إسمنت CPJ 45", price: 78, unit: "كيس", category: "مواد البناء" },
-      { id: 2, name: "صباغة مائية داخلية", price: 240, unit: "سطل", category: "صباغة ودروكري" },
-      { id: 3, name: "مطرقة نجارة احترافية", price: 65, unit: "حبة", category: "أدوات يدوية" },
-      { id: 4, name: "أنبوب PVC قطر 50mm", price: 35, unit: "قطعة", category: "كهرباء وسباكة" }
+      { id: 1, name: "إسمنت CPJ 45", price: 78, unit: "كيس", category: "مواد البناء", image: "" },
+      { id: 2, name: "صباغة مائية داخلية", price: 240, unit: "سطل", category: "صباغة ودروكري", image: "" },
+      { id: 3, name: "مطرقة نجارة احترافية", price: 65, unit: "حبة", category: "أدوات يدوية", image: "" },
+      { id: 4, name: "أنبوب PVC قطر 50mm", price: 35, unit: "قطعة", category: "كهرباء وسباكة", image: "" }
     ];
 
     const CATEGORIES = ["الكل", "مواد البناء", "أدوات يدوية", "صباغة ودروكري", "كهرباء وسباكة"];
@@ -409,10 +537,11 @@
     let products = loadProducts();
     let selectedCategory = "الكل";
     let isAdminUnlocked = false;
+    let uploadedBase64Image = "";
 
     function loadProducts() {
       try {
-        const saved = localStorage.getItem(STORAGE_KEY);
+        const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("tadart_products_v1");
         if (saved) {
           const parsed = JSON.parse(saved);
           if (Array.isArray(parsed) && parsed.length > 0) return parsed;
@@ -422,8 +551,69 @@
     }
 
     function saveProducts() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+      } catch (e) {
+        alert("تنبيه: مساحة التخزين ممتلئة. يُفضل حذف بعض السلع القديمة أو استخدام صور بحجم أصغر.");
+      }
     }
+
+    // ضغط الصورة تلقائياً لتخفيف الحجم وحفظها بسلاسة
+    function compressImage(file, maxWidth = 500, quality = 0.75) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            let width = img.width;
+            let height = img.height;
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL("image/jpeg", quality));
+          };
+          img.onerror = reject;
+          img.src = event.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    const fileInput = document.getElementById("prodImageFile");
+    const urlInput = document.getElementById("prodImageUrl");
+    const previewImg = document.getElementById("imagePreview");
+
+    fileInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        uploadedBase64Image = await compressImage(file);
+        urlInput.value = "";
+        previewImg.src = uploadedBase64Image;
+        previewImg.classList.add("visible");
+      } catch (err) {
+        alert("تعذر قراءة الصورة، جرب صورة أخرى.");
+      }
+    });
+
+    urlInput.addEventListener("input", () => {
+      const val = urlInput.value.trim();
+      if (val) {
+        uploadedBase64Image = "";
+        fileInput.value = "";
+        previewImg.src = val;
+        previewImg.classList.add("visible");
+      } else if (!uploadedBase64Image) {
+        previewImg.classList.remove("visible");
+      }
+    });
 
     function renderCategories() {
       const bar = document.getElementById("categoriesBar");
@@ -460,6 +650,29 @@
       document.getElementById("botModal").classList.remove("open");
     });
 
+    function renderImageContainer(product) {
+      const icon = CATEGORY_ICONS[product.category] || "📦";
+      if (product.image) {
+        return `
+          <div class="product-img-box">
+            <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+            <div class="img-placeholder" style="display:none;">
+              <span class="icon">${icon}</span>
+              <span>صورة السلعة</span>
+            </div>
+          </div>
+        `;
+      }
+      return `
+        <div class="product-img-box">
+          <div class="img-placeholder">
+            <span class="icon">${icon}</span>
+            <span>بدون صورة</span>
+          </div>
+        </div>
+      `;
+    }
+
     function renderProducts() {
       const grid = document.getElementById("productsGrid");
       const q = document.getElementById("searchInput").value.trim().toLowerCase();
@@ -479,14 +692,17 @@
         .map(
           (p) => `
           <article class="card">
-            <div>
-              <span class="badge">${escapeHtml(p.category)}</span>
-              <h3 class="product-title">${escapeHtml(p.name)}</h3>
-              <div class="product-price">${Number(p.price)} DH <span>/ ${escapeHtml(p.unit)}</span></div>
+            ${renderImageContainer(p)}
+            <div class="card-body">
+              <div>
+                <span class="badge">${escapeHtml(p.category)}</span>
+                <h3 class="product-title">${escapeHtml(p.name)}</h3>
+                <div class="product-price">${Number(p.price)} DH <span>/ ${escapeHtml(p.unit)}</span></div>
+              </div>
+              <button class="btn btn-wa" type="button" onclick="openBotOrder(${p.id})">
+                طلب عبر واتساب
+              </button>
             </div>
-            <button class="btn btn-wa" type="button" onclick="openBotOrder(${p.id})">
-              طلب عبر واتساب
-            </button>
           </article>
         `
         )
@@ -503,7 +719,10 @@
         .map(
           (p) => `
           <div class="admin-item">
-            <span><strong>${escapeHtml(p.name)}</strong> — ${Number(p.price)} DH (${escapeHtml(p.unit)})</span>
+            <div class="admin-item-info">
+              ${p.image ? `<img class="admin-item-thumb" src="${escapeHtml(p.image)}" alt="" />` : `<div class="admin-item-thumb" style="display:flex;align-items:center;justify-content:center;">${CATEGORY_ICONS[p.category] || "📦"}</div>`}
+              <span><strong>${escapeHtml(p.name)}</strong> — ${Number(p.price)} DH (${escapeHtml(p.unit)})</span>
+            </div>
             <button class="btn btn-danger" type="button" onclick="deleteProduct(${p.id})">حذف</button>
           </div>
         `
@@ -553,6 +772,7 @@
       const price = parseFloat(document.getElementById("prodPrice").value);
       const unit = document.getElementById("prodUnit").value.trim() || "حبة";
       const category = document.getElementById("prodCategory").value;
+      const finalImage = uploadedBase64Image || urlInput.value.trim();
 
       if (!name || isNaN(price)) return;
 
@@ -561,13 +781,17 @@
         name,
         price,
         unit,
-        category
+        category,
+        image: finalImage
       });
 
       saveProducts();
       renderProducts();
       renderAdminList();
       e.target.reset();
+      uploadedBase64Image = "";
+      previewImg.src = "";
+      previewImg.classList.remove("visible");
       document.getElementById("prodUnit").value = "حبة";
     });
 
@@ -578,7 +802,3 @@
   </script>
 </body>
 </html>
-
-
-      
-
