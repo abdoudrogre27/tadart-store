@@ -100,11 +100,6 @@
       color: #fff;
     }
 
-    .btn-accent {
-      background: var(--accent);
-      color: #0f172a;
-    }
-
     .btn-wa {
       background: var(--whatsapp);
       color: #fff;
@@ -274,6 +269,47 @@
       font-size: 0.9rem;
     }
 
+    .bot-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      z-index: 50;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .bot-modal.open {
+      display: flex;
+    }
+
+    .bot-box {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 100%;
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .bot-bubble {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #14532d;
+      border-radius: 12px;
+      padding: 12px;
+      margin: 12px 0 16px;
+      font-size: 0.92rem;
+      white-space: pre-line;
+    }
+
+    .bot-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .empty {
       text-align: center;
       padding: 36px 16px;
@@ -336,14 +372,30 @@
     <div class="grid" id="productsGrid"></div>
   </main>
 
+  <div class="bot-modal" id="botModal" role="dialog" aria-modal="true">
+    <div class="bot-box">
+      <h3>مساعد طلبات Tadart</h3>
+      <div class="bot-bubble" id="botWelcomeText">مرحبا بيكم في المتجر ديالنا
+صيفت الاسم والعنوان وحدد السلعة لي بغيتي
+وغنرضو عليك في اقرب وقت وشكرا</div>
+      <div class="bot-actions">
+        <a class="btn btn-wa" id="botConfirmWaBtn" href="#" target="_blank" rel="noopener">متابعة إلى واتساب</a>
+        <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1;width:100%;justify-content:center" id="closeBotBtn" type="button">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
   <footer>
-    متجر Tadart — تامنصورت — خدمة سريعة وطلب مباشر عبر واتساب
+    متجر Tadart — تامنصورت — خدمة سريعة وطلب مباشر عبر واتساب (0768188305)
   </footer>
 
   <script>
-    const WHATSAPP_NUMBER = "212600000000";
+    const WHATSAPP_NUMBER = "212768188305";
     const ADMIN_PIN = "1234";
     const STORAGE_KEY = "tadart_products_v1";
+    const BOT_REPLY = `مرحبا بيكم في المتجر ديالنا
+صيفت الاسم والعنوان وحدد السلعة لي بغيتي
+وغنرضو عليك في اقرب وقت وشكرا`;
 
     const DEFAULT_PRODUCTS = [
       { id: 1, name: "إسمنت CPJ 45", price: 78, unit: "كيس", category: "مواد البناء" },
@@ -391,9 +443,22 @@
     }
 
     function buildWhatsAppLink(product) {
-      const msg = `السلام عليكم متجر Tadart (تامنصورت)، بغيت نطلب: ${product.name} (${product.price} DH / ${product.unit})`;
+      const msg = `${BOT_REPLY}\n\nالسلعة المختارة: ${product.name} (${product.price} DH / ${product.unit})`;
       return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
     }
+
+    window.openBotOrder = function (productId) {
+      const product = products.find((p) => p.id === productId);
+      if (!product) return;
+      document.getElementById("botWelcomeText").textContent =
+        `${BOT_REPLY}\n\nالسلعة المختارة: ${product.name} (${product.price} DH / ${product.unit})`;
+      document.getElementById("botConfirmWaBtn").href = buildWhatsAppLink(product);
+      document.getElementById("botModal").classList.add("open");
+    };
+
+    document.getElementById("closeBotBtn").addEventListener("click", () => {
+      document.getElementById("botModal").classList.remove("open");
+    });
 
     function renderProducts() {
       const grid = document.getElementById("productsGrid");
@@ -419,9 +484,9 @@
               <h3 class="product-title">${escapeHtml(p.name)}</h3>
               <div class="product-price">${Number(p.price)} DH <span>/ ${escapeHtml(p.unit)}</span></div>
             </div>
-            <a class="btn btn-wa" href="${buildWhatsAppLink(p)}" target="_blank" rel="noopener">
+            <button class="btn btn-wa" type="button" onclick="openBotOrder(${p.id})">
               طلب عبر واتساب
-            </a>
+            </button>
           </article>
         `
         )
@@ -513,6 +578,7 @@
   </script>
 </body>
 </html>
+
 
       
 
