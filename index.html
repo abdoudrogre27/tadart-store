@@ -24,6 +24,8 @@
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     }
 
+    html { scroll-behavior: smooth; }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -51,26 +53,12 @@
       gap: 12px;
     }
 
-    .brand h1 {
-      font-size: 1.45rem;
-      font-weight: 800;
-      letter-spacing: 0.3px;
-    }
+    .brand h1 { font-size: 1.45rem; font-weight: 800; letter-spacing: 0.3px; }
+    .brand p { font-size: 0.85rem; opacity: 0.9; }
 
-    .brand p {
-      font-size: 0.85rem;
-      opacity: 0.9;
-    }
+    .header-actions { display: flex; gap: 8px; align-items: center; }
 
-    .header-actions {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    button, input, select {
-      font-size: 0.95rem;
-    }
+    button, input, select { font-size: 0.95rem; }
 
     .btn {
       border: none;
@@ -78,16 +66,15 @@
       padding: 9px 14px;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.12s ease, opacity 0.15s ease;
+      transition: transform 0.12s ease, opacity 0.15s ease, background 0.15s ease;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       text-decoration: none;
     }
 
-    .btn:active {
-      transform: scale(0.98);
-    }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn:active { transform: scale(0.98); }
 
     .btn-light {
       background: rgba(255, 255, 255, 0.16);
@@ -95,16 +82,23 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-wa { background: var(--whatsapp); color: #fff; width: 100%; justify-content: center; }
 
-    .btn-wa {
-      background: var(--whatsapp);
-      color: #fff;
+    .btn-share {
+      background: #f1f5f9;
+      color: var(--primary);
+      border: 1px solid #cbd5e1;
       width: 100%;
       justify-content: center;
+      font-size: 0.86rem;
+      padding: 7px 12px;
+    }
+
+    .btn-share.copied {
+      background: #dcfce7;
+      color: #15803d;
+      border-color: #86efac;
     }
 
     .btn-danger {
@@ -114,11 +108,7 @@
       font-size: 0.82rem;
     }
 
-    .container {
-      max-width: 1050px;
-      margin: 18px auto;
-      padding: 0 14px;
-    }
+    .container { max-width: 1050px; margin: 18px auto; padding: 0 14px; }
 
     .toolbar {
       display: grid;
@@ -128,9 +118,7 @@
     }
 
     @media (max-width: 640px) {
-      .toolbar {
-        grid-template-columns: 1fr;
-      }
+      .toolbar { grid-template-columns: 1fr; }
     }
 
     .search-input {
@@ -181,6 +169,12 @@
       flex-direction: column;
       justify-content: space-between;
       box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card.highlighted {
+      border: 2.5px solid var(--accent);
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.22);
     }
 
     .product-img-box {
@@ -193,6 +187,7 @@
       overflow: hidden;
       border-bottom: 1px solid var(--border);
       position: relative;
+      cursor: pointer;
     }
 
     .product-img-box img {
@@ -214,18 +209,18 @@
       padding: 10px;
     }
 
-    .img-placeholder span.icon {
-      font-size: 2.2rem;
-    }
+    .img-placeholder span.icon { font-size: 2.2rem; }
 
     .card-body {
       padding: 14px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       flex: 1;
     }
+
+    .card-actions { display: flex; flex-direction: column; gap: 6px; }
 
     .badge {
       display: inline-block;
@@ -238,23 +233,9 @@
       margin-bottom: 6px;
     }
 
-    .product-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .product-price {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--primary);
-    }
-
-    .product-price span {
-      font-size: 0.82rem;
-      color: var(--muted);
-      font-weight: 500;
-    }
+    .product-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+    .product-price { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+    .product-price span { font-size: 0.82rem; color: var(--muted); font-weight: 500; }
 
     .admin-panel {
       display: none;
@@ -265,9 +246,7 @@
       margin-bottom: 20px;
     }
 
-    .admin-panel.open {
-      display: block;
-    }
+    .admin-panel.open { display: block; }
 
     .admin-header {
       display: flex;
@@ -306,9 +285,7 @@
     }
 
     @media (max-width: 720px) {
-      .image-upload-group {
-        grid-template-columns: 1fr;
-      }
+      .image-upload-group { grid-template-columns: 1fr; }
     }
 
     .file-label {
@@ -326,9 +303,7 @@
       text-align: center;
     }
 
-    .file-label input[type="file"] {
-      display: none;
-    }
+    .file-label input[type="file"] { display: none; }
 
     .preview-thumb {
       width: 48px;
@@ -340,9 +315,7 @@
       display: none;
     }
 
-    .preview-thumb.visible {
-      display: block;
-    }
+    .preview-thumb.visible { display: block; }
 
     .admin-list {
       display: flex;
@@ -364,11 +337,7 @@
       font-size: 0.9rem;
     }
 
-    .admin-item-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .admin-item-info { display: flex; align-items: center; gap: 10px; }
 
     .admin-item-thumb {
       width: 38px;
@@ -379,29 +348,45 @@
       flex-shrink: 0;
     }
 
+    .admin-item-btns { display: flex; gap: 6px; flex-shrink: 0; }
+
     .bot-modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.55);
+      background: rgba(15, 23, 42, 0.65);
       z-index: 50;
       align-items: center;
       justify-content: center;
       padding: 16px;
     }
 
-    .bot-modal.open {
-      display: flex;
-    }
+    .bot-modal.open { display: flex; }
 
     .bot-box {
       background: #fff;
       border-radius: 16px;
-      max-width: 420px;
+      max-width: 430px;
       width: 100%;
       padding: 18px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      max-height: 92vh;
+      overflow-y: auto;
     }
+
+    .modal-product-preview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .modal-product-preview img { width: 100%; max-height: 210px; object-fit: cover; }
+    .modal-product-meta { padding: 10px 12px; width: 100%; text-align: center; }
 
     .bot-bubble {
       background: #f0fdf4;
@@ -409,16 +394,32 @@
       color: #14532d;
       border-radius: 12px;
       padding: 12px;
-      margin: 12px 0 16px;
-      font-size: 0.92rem;
+      margin: 10px 0 14px;
+      font-size: 0.9rem;
       white-space: pre-line;
     }
 
-    .bot-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+    .bot-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #0f172a;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+      pointer-events: none;
     }
+
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
     .empty {
       text-align: center;
@@ -455,7 +456,7 @@
   <main class="container">
     <section class="admin-panel" id="adminPanel">
       <div class="admin-header">
-        <h2>لوحة الإدارة (إضافة وتعديل السلع والصور)</h2>
+        <h2>لوحة الإدارة السحابية (Tadart Store)</h2>
         <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1" id="lockAdminBtn" type="button">إغلاق</button>
       </div>
 
@@ -479,7 +480,7 @@
           <img id="imagePreview" class="preview-thumb" alt="معاينة الصورة" />
         </div>
 
-        <button class="btn btn-primary" style="grid-column: 1 / -1; justify-content: center;" type="submit">+ إضافة السلعة للمتجر</button>
+        <button class="btn btn-primary" id="submitProdBtn" style="grid-column: 1 / -1; justify-content: center;" type="submit">+ نشر السلعة لجميع الزبائن</button>
       </form>
 
       <div class="admin-list" id="adminList"></div>
@@ -490,30 +491,59 @@
       <div class="categories" id="categoriesBar"></div>
     </div>
 
-    <div class="grid" id="productsGrid"></div>
+    <div class="grid" id="productsGrid">
+      <div class="empty">جاري تحميل السلع من المتجر...</div>
+    </div>
   </main>
 
   <div class="bot-modal" id="botModal" role="dialog" aria-modal="true">
     <div class="bot-box">
-      <h3>مساعد طلبات Tadart</h3>
+      <h3 id="modalTitle">تفاصيل وطلب السلعة</h3>
+      <div class="modal-product-preview" id="modalProductPreview"></div>
       <div class="bot-bubble" id="botWelcomeText">مرحبا بيكم في المتجر ديالنا
 صيفت الاسم والعنوان وحدد السلعة لي بغيتي
 وغنرضو عليك في اقرب وقت وشكرا</div>
       <div class="bot-actions">
-        <a class="btn btn-wa" id="botConfirmWaBtn" href="#" target="_blank" rel="noopener">متابعة إلى واتساب</a>
-        <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1;width:100%;justify-content:center" id="closeBotBtn" type="button">إغلاق</button>
+        <a class="btn btn-wa" id="botConfirmWaBtn" href="#" target="_blank" rel="noopener">طلب هذه السلعة عبر واتساب</a>
+        <button class="btn btn-share" id="modalCopyLinkBtn" type="button">🔗 نسخ رابط هذه السلعة للنشر</button>
+        <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1;width:100%;justify-content:center" id="closeBotBtn" type="button">تصفح باقي السلع في المتجر</button>
       </div>
     </div>
   </div>
+
+  <div class="toast" id="toastMsg">تم نسخ الرابط!</div>
 
   <footer>
     متجر Tadart — تامنصورت — خدمة سريعة وطلب مباشر عبر واتساب (0768188305)
   </footer>
 
-  <script>
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      deleteDoc,
+      doc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCH0owNaDxI6s1VImp-WIQIRLdi19qG0bo",
+      authDomain: "tadart-store.firebaseapp.com",
+      projectId: "tadart-store",
+      storageBucket: "tadart-store.firebasestorage.app",
+      messagingSenderId: "348857525381",
+      appId: "1:348857525381:web:5d50268d885fe1b7c9b5ec",
+      measurementId: "G-PHMW43T5GX"
+    };
+
     const WHATSAPP_NUMBER = "212768188305";
     const ADMIN_PIN = "1234";
-    const STORAGE_KEY = "tadart_products_v2";
     const BOT_REPLY = `مرحبا بيكم في المتجر ديالنا
 صيفت الاسم والعنوان وحدد السلعة لي بغيتي
 وغنرضو عليك في اقرب وقت وشكرا`;
@@ -525,41 +555,54 @@
       "كهرباء وسباكة": "🚰"
     };
 
-    const DEFAULT_PRODUCTS = [
-      { id: 1, name: "إسمنت CPJ 45", price: 78, unit: "كيس", category: "مواد البناء", image: "" },
-      { id: 2, name: "صباغة مائية داخلية", price: 240, unit: "سطل", category: "صباغة ودروكري", image: "" },
-      { id: 3, name: "مطرقة نجارة احترافية", price: 65, unit: "حبة", category: "أدوات يدوية", image: "" },
-      { id: 4, name: "أنبوب PVC قطر 50mm", price: 35, unit: "قطعة", category: "كهرباء وسباكة", image: "" }
-    ];
-
     const CATEGORIES = ["الكل", "مواد البناء", "أدوات يدوية", "صباغة ودروكري", "كهرباء وسباكة"];
 
-    let products = loadProducts();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const productsCol = collection(db, "products");
+
+    let products = [];
     let selectedCategory = "الكل";
     let isAdminUnlocked = false;
     let uploadedBase64Image = "";
+    let activeModalProductId = null;
+    let initialDeepLinkChecked = false;
 
-    function loadProducts() {
+    function showToast(text) {
+      const toast = document.getElementById("toastMsg");
+      toast.textContent = text;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function getProductShareUrl(productId) {
+      const baseUrl = window.location.href.split("#")[0].split("?")[0];
+      return `${baseUrl}#product-${productId}`;
+    }
+
+    window.copyProductLink = async function (productId, btnElement) {
+      const product = products.find((p) => p.id === productId);
+      if (!product) return;
+      const shareUrl = getProductShareUrl(productId);
+
       try {
-        const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("tadart_products_v1");
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        await navigator.clipboard.writeText(shareUrl);
+        showToast("تم نسخ رابط السلعة! الصقه في فيسبوك أو إنستغرام");
+        if (btnElement) {
+          const orig = btnElement.innerHTML;
+          btnElement.innerHTML = "✅ تم نسخ الرابط";
+          btnElement.classList.add("copied");
+          setTimeout(() => {
+            btnElement.innerHTML = orig;
+            btnElement.classList.remove("copied");
+          }, 2000);
         }
-      } catch (e) {}
-      return [...DEFAULT_PRODUCTS];
-    }
-
-    function saveProducts() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
-      } catch (e) {
-        alert("تنبيه: مساحة التخزين ممتلئة. يُفضل حذف بعض السلع القديمة أو استخدام صور بحجم أصغر.");
+      } catch (err) {
+        prompt("انسخ رابط هذه السلعة لمشاركته:", shareUrl);
       }
-    }
+    };
 
-    // ضغط الصورة تلقائياً لتخفيف الحجم وحفظها بسلاسة
-    function compressImage(file, maxWidth = 500, quality = 0.75) {
+    function compressImage(file, maxWidth = 450, quality = 0.7) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -633,28 +676,51 @@
     }
 
     function buildWhatsAppLink(product) {
-      const msg = `${BOT_REPLY}\n\nالسلعة المختارة: ${product.name} (${product.price} DH / ${product.unit})`;
+      const shareUrl = getProductShareUrl(product.id);
+      const msg = `${BOT_REPLY}\n\nالسلعة المختارة: ${product.name} (${product.price} DH / ${product.unit})\nرابط السلعة: ${shareUrl}`;
       return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
     }
 
     window.openBotOrder = function (productId) {
       const product = products.find((p) => p.id === productId);
       if (!product) return;
+      activeModalProductId = productId;
+
+      const icon = CATEGORY_ICONS[product.category] || "📦";
+      const previewContainer = document.getElementById("modalProductPreview");
+      previewContainer.innerHTML = `
+        ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" />` : `<div style="padding:20px;font-size:2.5rem;">${icon}</div>`}
+        <div class="modal-product-meta">
+          <span class="badge">${escapeHtml(product.category)}</span>
+          <h4 style="font-size:1.1rem;margin-bottom:2px;">${escapeHtml(product.name)}</h4>
+          <div class="product-price">${Number(product.price)} DH <span>/ ${escapeHtml(product.unit)}</span></div>
+        </div>
+      `;
+
       document.getElementById("botWelcomeText").textContent =
         `${BOT_REPLY}\n\nالسلعة المختارة: ${product.name} (${product.price} DH / ${product.unit})`;
       document.getElementById("botConfirmWaBtn").href = buildWhatsAppLink(product);
       document.getElementById("botModal").classList.add("open");
     };
 
+    document.getElementById("modalCopyLinkBtn").addEventListener("click", function () {
+      if (activeModalProductId) {
+        copyProductLink(activeModalProductId, this);
+      }
+    });
+
     document.getElementById("closeBotBtn").addEventListener("click", () => {
       document.getElementById("botModal").classList.remove("open");
+      if (window.location.hash.startsWith("#product-")) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
     });
 
     function renderImageContainer(product) {
       const icon = CATEGORY_ICONS[product.category] || "📦";
       if (product.image) {
         return `
-          <div class="product-img-box">
+          <div class="product-img-box" onclick="openBotOrder('${product.id}')">
             <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
             <div class="img-placeholder" style="display:none;">
               <span class="icon">${icon}</span>
@@ -664,7 +730,7 @@
         `;
       }
       return `
-        <div class="product-img-box">
+        <div class="product-img-box" onclick="openBotOrder('${product.id}')">
           <div class="img-placeholder">
             <span class="icon">${icon}</span>
             <span>بدون صورة</span>
@@ -684,14 +750,14 @@
       });
 
       if (filtered.length === 0) {
-        grid.innerHTML = `<div class="empty">لا توجد سلع مطابقة للبحث حالياً.</div>`;
+        grid.innerHTML = `<div class="empty">لا توجد سلع منشورة حالياً.</div>`;
         return;
       }
 
       grid.innerHTML = filtered
         .map(
           (p) => `
-          <article class="card">
+          <article class="card" id="product-${p.id}">
             ${renderImageContainer(p)}
             <div class="card-body">
               <div>
@@ -699,9 +765,14 @@
                 <h3 class="product-title">${escapeHtml(p.name)}</h3>
                 <div class="product-price">${Number(p.price)} DH <span>/ ${escapeHtml(p.unit)}</span></div>
               </div>
-              <button class="btn btn-wa" type="button" onclick="openBotOrder(${p.id})">
-                طلب عبر واتساب
-              </button>
+              <div class="card-actions">
+                <button class="btn btn-wa" type="button" onclick="openBotOrder('${p.id}')">
+                  طلب عبر واتساب
+                </button>
+                <button class="btn btn-share" type="button" onclick="copyProductLink('${p.id}', this)">
+                  🔗 نسخ رابط السلعة
+                </button>
+              </div>
             </div>
           </article>
         `
@@ -712,7 +783,7 @@
     function renderAdminList() {
       const list = document.getElementById("adminList");
       if (products.length === 0) {
-        list.innerHTML = `<div class="admin-item">لا توجد سلع مضافة.</div>`;
+        list.innerHTML = `<div class="admin-item">لا توجد سلع مضافة بعد.</div>`;
         return;
       }
       list.innerHTML = products
@@ -723,18 +794,24 @@
               ${p.image ? `<img class="admin-item-thumb" src="${escapeHtml(p.image)}" alt="" />` : `<div class="admin-item-thumb" style="display:flex;align-items:center;justify-content:center;">${CATEGORY_ICONS[p.category] || "📦"}</div>`}
               <span><strong>${escapeHtml(p.name)}</strong> — ${Number(p.price)} DH (${escapeHtml(p.unit)})</span>
             </div>
-            <button class="btn btn-danger" type="button" onclick="deleteProduct(${p.id})">حذف</button>
+            <div class="admin-item-btns">
+              <button class="btn btn-share" style="width:auto;padding:6px 10px;" type="button" onclick="copyProductLink('${p.id}', this)">🔗 نسخ الرابط</button>
+              <button class="btn btn-danger" type="button" onclick="deleteProduct('${p.id}')">حذف</button>
+            </div>
           </div>
         `
         )
         .join("");
     }
 
-    window.deleteProduct = function (id) {
-      products = products.filter((p) => p.id !== id);
-      saveProducts();
-      renderProducts();
-      renderAdminList();
+    window.deleteProduct = async function (id) {
+      if (!confirm("هل تريد حذف هذه السلعة نهائياً من المتجر؟")) return;
+      try {
+        await deleteDoc(doc(db, "products", id));
+        showToast("تم حذف السلعة بنجاح");
+      } catch (err) {
+        alert("حدث خطأ أثناء الحذف: " + err.message);
+      }
     };
 
     function escapeHtml(str) {
@@ -744,6 +821,31 @@
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
     }
+
+    function checkDirectProductLink() {
+      const hash = window.location.hash;
+      if (hash && hash.startsWith("#product-")) {
+        const targetId = hash.replace("#product-", "");
+        const product = products.find((p) => p.id === targetId);
+        if (product) {
+          selectedCategory = "الكل";
+          document.getElementById("searchInput").value = "";
+          renderCategories();
+          renderProducts();
+
+          setTimeout(() => {
+            const cardEl = document.getElementById(`product-${targetId}`);
+            if (cardEl) {
+              cardEl.classList.add("highlighted");
+              cardEl.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+            openBotOrder(targetId);
+          }, 150);
+        }
+      }
+    }
+
+    window.addEventListener("hashchange", checkDirectProductLink);
 
     document.getElementById("adminToggleBtn").addEventListener("click", () => {
       const panel = document.getElementById("adminPanel");
@@ -766,8 +868,9 @@
       document.getElementById("adminPanel").classList.remove("open");
     });
 
-    document.getElementById("addProductForm").addEventListener("submit", (e) => {
+    document.getElementById("addProductForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const submitBtn = document.getElementById("submitProdBtn");
       const name = document.getElementById("prodName").value.trim();
       const price = parseFloat(document.getElementById("prodPrice").value);
       const unit = document.getElementById("prodUnit").value.trim() || "حبة";
@@ -776,29 +879,59 @@
 
       if (!name || isNaN(price)) return;
 
-      products.unshift({
-        id: Date.now(),
-        name,
-        price,
-        unit,
-        category,
-        image: finalImage
-      });
+      submitBtn.disabled = true;
+      submitBtn.textContent = "جاري النشر...";
 
-      saveProducts();
-      renderProducts();
-      renderAdminList();
-      e.target.reset();
-      uploadedBase64Image = "";
-      previewImg.src = "";
-      previewImg.classList.remove("visible");
-      document.getElementById("prodUnit").value = "حبة";
+      try {
+        await addDoc(productsCol, {
+          name,
+          price,
+          unit,
+          category,
+          image: finalImage,
+          createdAt: serverTimestamp()
+        });
+
+        e.target.reset();
+        uploadedBase64Image = "";
+        previewImg.src = "";
+        previewImg.classList.remove("visible");
+        document.getElementById("prodUnit").value = "حبة";
+        showToast("تم نشر السلعة لجميع الزبائن!");
+      } catch (err) {
+        alert("تعذر إضافة السلعة: " + err.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "+ نشر السلعة لجميع الزبائن";
+      }
     });
 
     document.getElementById("searchInput").addEventListener("input", renderProducts);
 
+    const qProducts = query(productsCol, orderBy("createdAt", "desc"));
+    onSnapshot(
+      qProducts,
+      (snapshot) => {
+        products = snapshot.docs.map((d) => ({
+          id: d.id,
+          ...d.data()
+        }));
+        renderProducts();
+        if (isAdminUnlocked) renderAdminList();
+
+        if (!initialDeepLinkChecked && products.length > 0) {
+          initialDeepLinkChecked = true;
+          checkDirectProductLink();
+        }
+      },
+      (error) => {
+        document.getElementById("productsGrid").innerHTML =
+          `<div class="empty">حدث خطأ في الاتصال بقاعدة البيانات:<br><small>${escapeHtml(error.message)}</small></div>`;
+      }
+    );
+
     renderCategories();
-    renderProducts();
   </script>
 </body>
 </html>
+
