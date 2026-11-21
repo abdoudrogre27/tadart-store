@@ -9,6 +9,7 @@
       --primary: #0f4c81;
       --primary-dark: #093256;
       --accent: #f59e0b;
+      --promo: #dc2626;
       --whatsapp: #16a34a;
       --bg: #f4f6f9;
       --card: #ffffff;
@@ -30,17 +31,27 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.5;
-      padding-bottom: 48px;
+      padding-bottom: 85px;
+    }
+
+    .top-promo-bar {
+      background: linear-gradient(90deg, #b91c1c, #ea580c);
+      color: #fff;
+      text-align: center;
+      padding: 7px 12px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
     }
 
     header {
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #fff;
-      padding: 18px 16px;
+      padding: 16px;
       position: sticky;
       top: 0;
       z-index: 20;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
     }
 
     .header-inner {
@@ -53,12 +64,17 @@
       gap: 12px;
     }
 
+    .brand {
+      cursor: pointer;
+      user-select: none;
+    }
+
     .brand h1 { font-size: 1.45rem; font-weight: 800; letter-spacing: 0.3px; }
-    .brand p { font-size: 0.85rem; opacity: 0.9; }
+    .brand p { font-size: 0.84rem; opacity: 0.92; }
 
-    .header-actions { display: flex; gap: 8px; align-items: center; }
+    .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
-    button, input, select { font-size: 0.95rem; }
+    button, input, select, textarea { font-size: 0.95rem; }
 
     .btn {
       border: none;
@@ -80,6 +96,14 @@
       background: rgba(255, 255, 255, 0.16);
       color: #fff;
       border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-map {
+      background: #fff;
+      color: var(--primary-dark);
+      font-size: 0.85rem;
+      padding: 8px 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
     }
 
     .btn-primary { background: var(--primary); color: #fff; }
@@ -179,7 +203,7 @@
 
     .product-img-box {
       width: 100%;
-      height: 165px;
+      height: 170px;
       background: #f1f5f9;
       display: flex;
       align-items: center;
@@ -195,6 +219,33 @@
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    .promo-ribbon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: linear-gradient(135deg, #dc2626, #ea580c);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      box-shadow: 0 3px 8px rgba(220, 38, 38, 0.35);
+      z-index: 2;
+    }
+
+    .free-ship-tag {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(15, 23, 42, 0.8);
+      color: #fde047;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      z-index: 2;
     }
 
     .img-placeholder {
@@ -244,6 +295,7 @@
       border-radius: 14px;
       padding: 16px;
       margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
 
     .admin-panel.open { display: block; }
@@ -255,6 +307,44 @@
       margin-bottom: 14px;
       flex-wrap: wrap;
       gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .admin-settings-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 12px;
+    }
+
+    .setting-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .setting-item label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #92400e;
+    }
+
+    .setting-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .setting-row input {
+      padding: 7px 10px;
+      border: 1px solid #fcd34d;
+      border-radius: 8px;
+      background: #fff;
+      width: 100%;
     }
 
     .admin-form {
@@ -354,11 +444,11 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(15, 23, 42, 0.68);
       z-index: 50;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 14px;
     }
 
     .bot-modal.open { display: flex; }
@@ -366,7 +456,7 @@
     .bot-box {
       background: #fff;
       border-radius: 16px;
-      max-width: 430px;
+      max-width: 450px;
       width: 100%;
       padding: 18px;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
@@ -376,36 +466,93 @@
 
     .modal-product-preview {
       display: flex;
-      flex-direction: column;
       align-items: center;
+      gap: 12px;
       background: #f8fafc;
       border: 1px solid var(--border);
       border-radius: 12px;
-      overflow: hidden;
+      padding: 10px;
       margin: 10px 0;
     }
 
-    .modal-product-preview img { width: 100%; max-height: 210px; object-fit: cover; }
-    .modal-product-meta { padding: 10px 12px; width: 100%; text-align: center; }
+    .modal-product-preview img {
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .modal-product-meta { flex: 1; }
 
     .bot-bubble {
       background: #f0fdf4;
       border: 1px solid #bbf7d0;
       color: #14532d;
       border-radius: 12px;
-      padding: 12px;
-      margin: 10px 0 14px;
-      font-size: 0.9rem;
+      padding: 11px;
+      margin: 8px 0 12px;
+      font-size: 0.88rem;
       white-space: pre-line;
+    }
+
+    .customer-form {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+
+    .customer-form label {
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: -5px;
+    }
+
+    .customer-form input, .customer-form textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 9px;
+      background: #f8fafc;
+    }
+
+    .customer-form input:focus, .customer-form textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #fff;
     }
 
     .bot-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
+    .floating-consult {
+      position: fixed;
+      bottom: 18px;
+      left: 18px;
+      background: var(--primary);
+      color: #fff;
+      border: 2px solid #fff;
+      border-radius: 999px;
+      padding: 11px 18px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      box-shadow: 0 6px 20px rgba(15, 76, 129, 0.35);
+      cursor: pointer;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: transform 0.15s ease;
+    }
+
+    .floating-consult:hover { transform: translateY(-2px); }
+
     .toast {
       position: fixed;
-      bottom: 20px;
+      top: 20px;
       left: 50%;
-      transform: translateX(-50%) translateY(80px);
+      transform: translateX(-50%) translateY(-80px);
       background: #0f172a;
       color: #fff;
       padding: 10px 18px;
@@ -432,23 +579,61 @@
     }
 
     footer {
+      background: #fff;
+      border-top: 1px solid var(--border);
       text-align: center;
       color: var(--muted);
-      font-size: 0.85rem;
-      margin-top: 28px;
-      padding: 0 12px;
+      font-size: 0.86rem;
+      margin-top: 32px;
+      padding: 22px 14px;
+      line-height: 1.8;
     }
+
+    .social-links-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 15px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      color: #fff;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .social-btn:hover { transform: translateY(-2px); opacity: 0.95; }
+    .social-fb { background: #1877f2; }
+    .social-ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .social-map { background: var(--primary); }
+    .social-wa { background: var(--whatsapp); }
   </style>
 </head>
 <body>
+  <div class="top-promo-bar">
+    🚚 توصيل مجاني لجميع المدن المغربية — 🔥 عرض خاص ناقص 2% على جميع السلع!
+  </div>
+
   <header>
     <div class="header-inner">
-      <div class="brand">
+      <div class="brand" id="secretBrandTrigger" title="Tadart">
         <h1>Tadart — تادارت</h1>
-        <p>مواد البناء، الأدوات والدروكري — تامنصورت، مراكش</p>
+        <p>مواد البناء، الأدوات والدروكري — تامنصورت شطر 6 حدا دوار ايت علي، مراكش</p>
       </div>
       <div class="header-actions">
-        <button class="btn btn-light" id="adminToggleBtn" type="button">إدارة المتجر</button>
+        <a class="btn btn-map" id="headerMapBtn" href="https://maps.google.com/?q=Tamansourt+Marrakech" target="_blank" rel="noopener">
+          📍 موقع المحل على الخريطة
+        </a>
+        <button class="btn btn-light" id="openConsultHeaderBtn" type="button">💬 استشارة</button>
       </div>
     </div>
   </header>
@@ -456,8 +641,39 @@
   <main class="container">
     <section class="admin-panel" id="adminPanel">
       <div class="admin-header">
-        <h2>لوحة الإدارة السحابية (Tadart Store)</h2>
-        <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1" id="lockAdminBtn" type="button">إغلاق</button>
+        <h2>🔐 لوحة الإدارة السحابية (Tadart Store)</h2>
+        <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1" id="lockAdminBtn" type="button">إغلاق اللوحة</button>
+      </div>
+
+      <div class="admin-settings-box">
+        <div class="setting-item">
+          <label for="newPinInput">🔑 تغيير رمز الدخول (المود باس):</label>
+          <div class="setting-row">
+            <input type="text" id="newPinInput" placeholder="أدخل الرمز الجديد..." />
+            <button class="btn btn-primary" style="padding:7px 12px;font-size:0.84rem;" id="savePinBtn" type="button">حفظ</button>
+          </div>
+        </div>
+        <div class="setting-item">
+          <label for="storeMapInput">📍 رابط موقع المحل (Google Maps):</label>
+          <div class="setting-row">
+            <input type="url" id="storeMapInput" placeholder="ألصق رابط Google Maps هنا..." />
+            <button class="btn btn-primary" style="padding:7px 12px;font-size:0.84rem;" id="saveMapBtn" type="button">حفظ</button>
+          </div>
+        </div>
+        <div class="setting-item">
+          <label for="storeFbInput">📘 رابط صفحة فيسبوك (Facebook):</label>
+          <div class="setting-row">
+            <input type="url" id="storeFbInput" placeholder="https://facebook.com/..." />
+            <button class="btn btn-primary" style="padding:7px 12px;font-size:0.84rem;" id="saveFbBtn" type="button">حفظ</button>
+          </div>
+        </div>
+        <div class="setting-item">
+          <label for="storeIgInput">📸 رابط حساب إنستغرام (Instagram):</label>
+          <div class="setting-row">
+            <input type="url" id="storeIgInput" placeholder="https://instagram.com/..." />
+            <button class="btn btn-primary" style="padding:7px 12px;font-size:0.84rem;" id="saveIgBtn" type="button">حفظ</button>
+          </div>
+        </div>
       </div>
 
       <form class="admin-form" id="addProductForm">
@@ -498,23 +714,80 @@
 
   <div class="bot-modal" id="botModal" role="dialog" aria-modal="true">
     <div class="bot-box">
-      <h3 id="modalTitle">تفاصيل وطلب السلعة</h3>
+      <h3 id="modalTitle">إتمام الطلب (توصيل مجاني 🚚)</h3>
       <div class="modal-product-preview" id="modalProductPreview"></div>
+
       <div class="bot-bubble" id="botWelcomeText">مرحبا بيكم في المتجر ديالنا
 صيفت الاسم والعنوان وحدد السلعة لي بغيتي
-وغنرضو عليك في اقرب وقت وشكرا</div>
+وغنرضو عليك في اقرب وقت وشكرا
+🚚 توصيل مجاني لجميع المدن المغربية</div>
+
+      <form class="customer-form" id="orderDetailsForm">
+        <label for="custName">الاسم الكامل *</label>
+        <input type="text" id="custName" placeholder="أدخل اسمك الكامل..." required />
+
+        <label for="custPhone">رقم الهاتف *</label>
+        <input type="tel" id="custPhone" placeholder="مثال: 06XXXXXXXX" required />
+
+        <label for="custCity">المدينة *</label>
+        <input type="text" id="custCity" placeholder="مثال: مراكش، الدار البيضاء، أكادير..." required />
+
+        <label for="custAddress">العنوان الكامل *</label>
+        <input type="text" id="custAddress" placeholder="الحي، الشارع، رقم المنزل..." required />
+
+        <button class="btn btn-wa" type="submit">📲 إرسال الطلب ومعلوماتي عبر واتساب</button>
+      </form>
+
       <div class="bot-actions">
-        <a class="btn btn-wa" id="botConfirmWaBtn" href="#" target="_blank" rel="noopener">طلب هذه السلعة عبر واتساب</a>
         <button class="btn btn-share" id="modalCopyLinkBtn" type="button">🔗 نسخ رابط هذه السلعة للنشر</button>
-        <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1;width:100%;justify-content:center" id="closeBotBtn" type="button">تصفح باقي السلع في المتجر</button>
+        <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1;width:100%;justify-content:center" id="closeBotBtn" type="button">إغلاق والعودة للمتجر</button>
       </div>
     </div>
   </div>
 
-  <div class="toast" id="toastMsg">تم نسخ الرابط!</div>
+  <div class="bot-modal" id="consultModal" role="dialog" aria-modal="true">
+    <div class="bot-box">
+      <h3>💬 طلب استشارة أو استفسار</h3>
+      <p style="font-size:0.88rem;color:var(--muted);margin:6px 0 12px;">
+        بغيتي تسول على شي سلعة، ثمن الجملة، أو محتاج نصيحة فمواد البناء والدروكري؟ كتب سؤالك وغادي نجاوبوك فالحين على واتساب.
+      </p>
+      <form class="customer-form" id="consultForm">
+        <label for="consultName">الاسم (اختياري)</label>
+        <input type="text" id="consultName" placeholder="اسمك الكريم..." />
+
+        <label for="consultTopic">موضوع الاستشارة أو سؤالك *</label>
+        <textarea id="consultTopic" rows="3" placeholder="اكتب سؤالك أو السلعة التي تبحث عنها هنا..." required></textarea>
+
+        <button class="btn btn-wa" type="submit">💬 إرسال الاستشارة عبر واتساب</button>
+        <button class="btn btn-light" style="color:#0f172a;border-color:#cbd5e1;width:100%;justify-content:center" id="closeConsultBtn" type="button">إلغاء</button>
+      </form>
+    </div>
+  </div>
+
+  <button class="floating-consult" id="floatingConsultBtn" type="button">
+    💬 بغيتي غير تستاشر؟ تفضل
+  </button>
+
+  <div class="toast" id="toastMsg">تم!</div>
 
   <footer>
-    متجر Tadart — تامنصورت — خدمة سريعة وطلب مباشر عبر واتساب (0768188305)
+    <div><strong>متجر Tadart — تادارت</strong> — تامنصورت شطر 6 حدا دوار ايت علي، مراكش</div>
+    <div>🚚 توصيل مجاني لجميع المدن المغربية | 🔥 عرض خاص ناقص 2%</div>
+
+    <div class="social-links-bar">
+      <a class="social-btn social-fb" id="footerFbLink" href="#" target="_blank" rel="noopener" style="display:none;">
+        📘 تابعنا على فيسبوك
+      </a>
+      <a class="social-btn social-ig" id="footerIgLink" href="#" target="_blank" rel="noopener" style="display:none;">
+        📸 تابعنا على إنستغرام
+      </a>
+      <a class="social-btn social-map" id="footerMapLink" href="https://maps.google.com/?q=Tamansourt+Marrakech" target="_blank" rel="noopener">
+        📍 موقع المحل على الخريطة
+      </a>
+      <a class="social-btn social-wa" href="https://wa.me/212768188305" target="_blank" rel="noopener">
+        📲 واتساب: 0768188305
+      </a>
+    </div>
   </footer>
 
   <script type="module">
@@ -525,6 +798,7 @@
       addDoc,
       deleteDoc,
       doc,
+      setDoc,
       onSnapshot,
       query,
       orderBy,
@@ -542,10 +816,16 @@
     };
 
     const WHATSAPP_NUMBER = "212768188305";
-    const ADMIN_PIN = "1234";
+
+    let STORE_MAP_URL = "https://maps.google.com/?q=Tamansourt+Marrakech";
+    let STORE_FB_URL = "";
+    let STORE_IG_URL = "";
+    let currentAdminPin = "1234";
+
     const BOT_REPLY = `مرحبا بيكم في المتجر ديالنا
 صيفت الاسم والعنوان وحدد السلعة لي بغيتي
-وغنرضو عليك في اقرب وقت وشكرا`;
+وغنرضو عليك في اقرب وقت وشكرا
+🚚 توصيل مجاني لجميع المدن المغربية`;
 
     const CATEGORY_ICONS = {
       "مواد البناء": "🧱",
@@ -559,6 +839,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const productsCol = collection(db, "products");
+    const settingsDocRef = doc(db, "settings", "storeConfig");
 
     let products = [];
     let selectedCategory = "الكل";
@@ -571,12 +852,147 @@
       const toast = document.getElementById("toastMsg");
       toast.textContent = text;
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2600);
+      setTimeout(() => toast.classList.remove("show"), 2700);
     }
+
+    function applyStoreLinks() {
+      if (STORE_MAP_URL) {
+        document.getElementById("headerMapBtn").href = STORE_MAP_URL;
+        document.getElementById("footerMapLink").href = STORE_MAP_URL;
+        const mapInput = document.getElementById("storeMapInput");
+        if (mapInput) mapInput.value = STORE_MAP_URL;
+      }
+
+      const fbBtn = document.getElementById("footerFbLink");
+      const fbInput = document.getElementById("storeFbInput");
+      if (STORE_FB_URL) {
+        fbBtn.href = STORE_FB_URL;
+        fbBtn.style.display = "inline-flex";
+        if (fbInput) fbInput.value = STORE_FB_URL;
+      } else {
+        fbBtn.style.display = "none";
+      }
+
+      const igBtn = document.getElementById("footerIgLink");
+      const igInput = document.getElementById("storeIgInput");
+      if (STORE_IG_URL) {
+        igBtn.href = STORE_IG_URL;
+        igBtn.style.display = "inline-flex";
+        if (igInput) igInput.value = STORE_IG_URL;
+      } else {
+        igBtn.style.display = "none";
+      }
+    }
+
+    onSnapshot(settingsDocRef, (snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data.adminPin) currentAdminPin = String(data.adminPin);
+        if (data.mapUrl !== undefined) STORE_MAP_URL = data.mapUrl;
+        if (data.fbUrl !== undefined) STORE_FB_URL = data.fbUrl;
+        if (data.igUrl !== undefined) STORE_IG_URL = data.igUrl;
+        applyStoreLinks();
+      }
+    });
+
+    let brandTapCount = 0;
+    let brandTapTimer = null;
+
+    function promptAdminLogin() {
+      const panel = document.getElementById("adminPanel");
+      if (isAdminUnlocked) {
+        panel.classList.add("open");
+        renderAdminList();
+        panel.scrollIntoView({ behavior: "smooth" });
+        return;
+      }
+      const pin = prompt("🔒 منطقة خاصة بصاحب المتجر — أدخل الرمز السري:");
+      if (pin === currentAdminPin) {
+        isAdminUnlocked = true;
+        panel.classList.add("open");
+        applyStoreLinks();
+        renderAdminList();
+        showToast("مرحباً بك في لوحة الإدارة!");
+      } else if (pin !== null) {
+        alert("الرمز السري غير صحيح.");
+      }
+    }
+
+    document.getElementById("secretBrandTrigger").addEventListener("click", () => {
+      brandTapCount++;
+      clearTimeout(brandTapTimer);
+      brandTapTimer = setTimeout(() => { brandTapCount = 0; }, 1800);
+      if (brandTapCount >= 5) {
+        brandTapCount = 0;
+        promptAdminLogin();
+      }
+    });
+
+    if (new URLSearchParams(window.location.search).get("admin") === "1") {
+      setTimeout(promptAdminLogin, 400);
+    }
+
+    document.getElementById("lockAdminBtn").addEventListener("click", () => {
+      document.getElementById("adminPanel").classList.remove("open");
+    });
+
+    document.getElementById("savePinBtn").addEventListener("click", async () => {
+      const newPin = document.getElementById("newPinInput").value.trim();
+      if (newPin.length < 4) {
+        alert("المرجو إدخال رمز مكون من 4 أرقام أو أحرف على الأقل.");
+        return;
+      }
+      try {
+        await setDoc(settingsDocRef, { adminPin: newPin }, { merge: true });
+        currentAdminPin = newPin;
+        document.getElementById("newPinInput").value = "";
+        showToast("✅ تم تغيير الرمز السري بنجاح!");
+      } catch (err) {
+        alert("تعذر حفظ الرمز: " + err.message);
+      }
+    });
+
+    document.getElementById("saveMapBtn").addEventListener("click", async () => {
+      const newMap = document.getElementById("storeMapInput").value.trim();
+      if (!newMap) return;
+      try {
+        await setDoc(settingsDocRef, { mapUrl: newMap }, { merge: true });
+        STORE_MAP_URL = newMap;
+        applyStoreLinks();
+        showToast("✅ تم تحديث رابط موقع المحل!");
+      } catch (err) {
+        alert("تعذر حفظ الرابط: " + err.message);
+      }
+    });
+
+    document.getElementById("saveFbBtn").addEventListener("click", async () => {
+      const newFb = document.getElementById("storeFbInput").value.trim();
+      try {
+        await setDoc(settingsDocRef, { fbUrl: newFb }, { merge: true });
+        STORE_FB_URL = newFb;
+        applyStoreLinks();
+        showToast("✅ تم حفظ رابط فيسبوك بنجاح!");
+      } catch (err) {
+        alert("تعذر حفظ رابط فيسبوك: " + err.message);
+      }
+    });
+
+    document.getElementById("saveIgBtn").addEventListener("click", async () => {
+      const newIg = document.getElementById("storeIgInput").value.trim();
+      try {
+        await setDoc(settingsDocRef, { igUrl: newIg }, { merge: true });
+        STORE_IG_URL = newIg;
+        applyStoreLinks();
+        showToast("✅ تم حفظ رابط إنستغرام بنجاح!");
+      } catch (err) {
+        alert("تعذر حفظ رابط إنستغرام: " + err.message);
+      }
+    });
 
     function getProductShareUrl(productId) {
       const url = new URL(window.location.href);
       url.hash = "";
+      url.searchParams.delete("admin");
       url.searchParams.set("product", productId);
       return url.toString();
     }
@@ -702,12 +1118,6 @@
       });
     }
 
-    function buildWhatsAppLink(product) {
-      const shareUrl = getProductShareUrl(product.id);
-      const msg = `${BOT_REPLY}\n\nالسلعة المختارة: ${product.name} (${product.price} DH / ${product.unit})\nرابط السلعة: ${shareUrl}`;
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-    }
-
     window.openBotOrder = function (productId) {
       const product = products.find((p) => p.id === productId);
       if (!product) return;
@@ -716,19 +1126,61 @@
       const icon = CATEGORY_ICONS[product.category] || "📦";
       const previewContainer = document.getElementById("modalProductPreview");
       previewContainer.innerHTML = `
-        ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" />` : `<div style="padding:20px;font-size:2.5rem;">${icon}</div>`}
+        ${product.image ? `<img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" />` : `<div style="padding:14px;font-size:2rem;">${icon}</div>`}
         <div class="modal-product-meta">
-          <span class="badge">${escapeHtml(product.category)}</span>
-          <h4 style="font-size:1.1rem;margin-bottom:2px;">${escapeHtml(product.name)}</h4>
+          <span class="badge">${escapeHtml(product.category)} | عرض خاص -2%</span>
+          <h4 style="font-size:1.05rem;margin-bottom:2px;">${escapeHtml(product.name)}</h4>
           <div class="product-price">${Number(product.price)} DH <span>/ ${escapeHtml(product.unit)}</span></div>
         </div>
       `;
 
-      document.getElementById("botWelcomeText").textContent =
-        `${BOT_REPLY}\n\nالسلعة المختارة: ${product.name} (${product.price} DH / ${product.unit})`;
-      document.getElementById("botConfirmWaBtn").href = buildWhatsAppLink(product);
+      document.getElementById("botWelcomeText").textContent = BOT_REPLY;
       document.getElementById("botModal").classList.add("open");
     };
+
+    document.getElementById("orderDetailsForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const product = products.find((p) => p.id === activeModalProductId);
+      if (!product) return;
+
+      const custName = document.getElementById("custName").value.trim();
+      const custPhone = document.getElementById("custPhone").value.trim();
+      const custCity = document.getElementById("custCity").value.trim();
+      const custAddress = document.getElementById("custAddress").value.trim();
+      const shareUrl = getProductShareUrl(product.id);
+
+      const fullMsg =
+`${BOT_REPLY}
+
+🛒 *السلعة المطلوبة:* ${product.name} (${product.price} DH / ${product.unit}) — عرض خاص -2%
+👤 *الاسم الكامل:* ${custName}
+📞 *رقم الهاتف:* ${custPhone}
+🏙️ *المدينة:* ${custCity}
+📍 *العنوان:* ${custAddress}
+🔗 *رابط السلعة:* ${shareUrl}`;
+
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(fullMsg)}`;
+      window.open(waUrl, "_blank", "noopener");
+    });
+
+    function openConsultModal() {
+      document.getElementById("consultModal").classList.add("open");
+    }
+
+    document.getElementById("floatingConsultBtn").addEventListener("click", openConsultModal);
+    document.getElementById("openConsultHeaderBtn").addEventListener("click", openConsultModal);
+    document.getElementById("closeConsultBtn").addEventListener("click", () => {
+      document.getElementById("consultModal").classList.remove("open");
+    });
+
+    document.getElementById("consultForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const cName = document.getElementById("consultName").value.trim() || "زبون";
+      const cTopic = document.getElementById("consultTopic").value.trim();
+      const msg = `السلام عليكم متجر Tadart، بغيت نستفسر/نستاشر معاكم:\n\n👤 الاسم: ${cName}\n💬 الاستشارة: ${cTopic}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank", "noopener");
+      document.getElementById("consultModal").classList.remove("open");
+    });
 
     document.getElementById("modalCopyLinkBtn").addEventListener("click", function () {
       if (activeModalProductId) {
@@ -748,9 +1200,14 @@
 
     function renderImageContainer(product) {
       const icon = CATEGORY_ICONS[product.category] || "📦";
+      const promoBadges = `
+        <span class="promo-ribbon">🔥 عرض خاص ناقص 2%</span>
+        <span class="free-ship-tag">🚚 توصيل مجاني</span>
+      `;
       if (product.image) {
         return `
           <div class="product-img-box" onclick="openBotOrder('${product.id}')">
+            ${promoBadges}
             <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
             <div class="img-placeholder" style="display:none;">
               <span class="icon">${icon}</span>
@@ -761,6 +1218,7 @@
       }
       return `
         <div class="product-img-box" onclick="openBotOrder('${product.id}')">
+          ${promoBadges}
           <div class="img-placeholder">
             <span class="icon">${icon}</span>
             <span>بدون صورة</span>
@@ -890,27 +1348,6 @@
 
     window.addEventListener("hashchange", checkDirectProductLink);
     window.addEventListener("popstate", checkDirectProductLink);
-
-    document.getElementById("adminToggleBtn").addEventListener("click", () => {
-      const panel = document.getElementById("adminPanel");
-      if (isAdminUnlocked) {
-        panel.classList.toggle("open");
-        renderAdminList();
-        return;
-      }
-      const pin = prompt("أدخل رمز الإدارة (PIN):");
-      if (pin === ADMIN_PIN) {
-        isAdminUnlocked = true;
-        panel.classList.add("open");
-        renderAdminList();
-      } else if (pin !== null) {
-        alert("الرمز غير صحيح.");
-      }
-    });
-
-    document.getElementById("lockAdminBtn").addEventListener("click", () => {
-      document.getElementById("adminPanel").classList.remove("open");
-    });
 
     document.getElementById("addProductForm").addEventListener("submit", async (e) => {
       e.preventDefault();
